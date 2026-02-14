@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#111827" />
+      <stop offset="100%" stop-color="#1f2937" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fb923c" />
+      <stop offset="100%" stop-color="#ea580c" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <circle cx="1080" cy="80" r="140" fill="#fb923c" opacity="0.08" />
+  <circle cx="130" cy="560" r="180" fill="#fb923c" opacity="0.08" />
+  <rect x="90" y="120" width="1020" height="390" rx="32" fill="#0f172a" stroke="#334155" />
+  <text x="160" y="245" fill="#f8fafc" font-family="Inter, sans-serif" font-size="56" font-weight="700">
+    Kickstart
+  </text>
+  <text x="160" y="320" fill="#cbd5e1" font-family="Inter, sans-serif" font-size="42" font-weight="500">
+    My ADHD streak!
+  </text>
+  <text x="160" y="390" fill="#94a3b8" font-family="Inter, sans-serif" font-size="32">
+    One task at a time. Zero overwhelm.
+  </text>
+  <rect x="160" y="435" width="340" height="12" rx="6" fill="url(#accent)" />
+</svg>
