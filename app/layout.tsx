@@ -3,6 +3,8 @@ import { Space_Grotesk, Inter } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { LayoutClient } from "@/components/LayoutClient";
+import { Suspense } from "react";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -59,16 +61,15 @@ export default function RootLayout({
   const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://us.i.posthog.com";
 
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable}`}>
-      <body className="font-sans antialiased">
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-50 focus:rounded-lg focus:bg-primary-500 focus:px-3 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
-        >
+    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable}`} suppressHydrationWarning>
+      <body className="font-sans antialiased bg-white dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100">
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-50 focus:rounded-lg focus:bg-primary-500 focus:px-3 focus:py-2 focus:text-sm focus:font-semibold focus:text-white">
           Skip to main content
         </a>
         <ErrorBoundary>
-          {children}
+          <Suspense fallback={<div className="min-h-screen" />}>
+            <LayoutClient>{children}</LayoutClient>
+          </Suspense>
         </ErrorBoundary>
         <Script id="kickstart-sw-register" strategy="afterInteractive">{`
           if ('serviceWorker' in navigator) {
