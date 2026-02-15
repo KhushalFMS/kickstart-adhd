@@ -5,6 +5,7 @@ import "./globals.css";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { LayoutClient } from "@/components/LayoutClient";
 import { Suspense } from "react";
+import { Analytics } from "@vercel/analytics/next";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -122,6 +123,8 @@ export default function RootLayout({
             </Script>
           </>
         ) : null}
+
+        <Analytics />
       </body>
     </html>
   );
