@@ -19,9 +19,12 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
+  ),
   title: "Kickstart - ADHD Task Manager",
-  description: "The only task manager designed for ADHD brains. Focus on one thing at a time.",
+  description:
+    "The only task manager designed for ADHD brains. Focus on one thing at a time.",
   manifest: "/manifest.json",
   icons: {
     icon: "/icon.svg",
@@ -29,7 +32,8 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Kickstart - My ADHD streak!",
-    description: "One task at a time. Zero overwhelm. Build momentum with ADHD-first workflows.",
+    description:
+      "One task at a time. Zero overwhelm. Build momentum with ADHD-first workflows.",
     type: "website",
     images: [
       {
@@ -54,44 +58,68 @@ export const viewport: Viewport = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   const posthogKey = process.env.NEXT_PUBLIC_POSTHOG_KEY;
-  const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://us.i.posthog.com";
+  const posthogHost =
+    process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://us.i.posthog.com";
 
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable}`} suppressHydrationWarning>
-      <body className="font-sans antialiased bg-white dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100">
-        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-50 focus:rounded-lg focus:bg-primary-500 focus:px-3 focus:py-2 focus:text-sm focus:font-semibold focus:text-white">
+    <html
+      lang="en"
+      className={`${spaceGrotesk.variable} ${inter.variable}`}
+      suppressHydrationWarning
+    >
+      <body className="font-sans antialiased bg-white dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 transition-colors duration-200 selection:bg-orange-500/20">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-orange-500 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:shadow-lg focus:outline-none"
+        >
           Skip to main content
         </a>
+
         <ErrorBoundary>
-          <Suspense fallback={<div className="min-h-screen" />}>
+          <Suspense fallback={<div className="min-h-screen bg-inherit" />}>
             <LayoutClient>{children}</LayoutClient>
           </Suspense>
         </ErrorBoundary>
-        <Script id="kickstart-sw-register" strategy="afterInteractive">{`
-          if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function () {
-              navigator.serviceWorker.register('/sw.js').catch(function () {});
-            });
-          }
-        `}</Script>
+
+        <Script id="kickstart-sw-register" strategy="afterInteractive">
+          {`
+            if ('serviceWorker' in navigator) {
+              window.addEventListener('load', function () {
+                navigator.serviceWorker
+                  .register('/sw.js')
+                  .catch(function () {});
+              });
+            }
+          `}
+        </Script>
+
         {posthogKey ? (
           <>
-            <Script src={`${posthogHost}/static/array.js`} strategy="afterInteractive" />
-            <Script id="kickstart-posthog" strategy="afterInteractive">{`
-              if (navigator.doNotTrack !== '1' && window.posthog) {
-                window.posthog.init('${posthogKey}', {
-                  api_host: '${posthogHost}',
-                  persistence: 'localStorage+cookie',
-                  person_profiles: 'identified_only',
-                  autocapture: false,
-                  capture_pageview: false
-                });
-              }
-            `}</Script>
+            <Script
+              src={posthogHost + "/static/array.js"}
+              strategy="afterInteractive"
+            />
+            <Script id="kickstart-posthog" strategy="afterInteractive">
+              {`
+                if (
+                  navigator.doNotTrack !== '1' &&
+                  window.posthog &&
+                  '${posthogKey}'
+                ) {
+                  window.posthog.init('${posthogKey}', {
+                    api_host: '${posthogHost}',
+                    persistence: 'localStorage+cookie',
+                    person_profiles: 'identified_only',
+                    autocapture: false,
+                    capture_pageview: false
+                  });
+                }
+              `}
+            </Script>
           </>
         ) : null}
       </body>
