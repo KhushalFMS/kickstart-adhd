@@ -1,10 +1,13 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  experimental: {
-    serverActions: {
-      bodySizeLimit: '2mb',
-    },
+module.exports = {
+  images: {
+    domains: ['example.com'], // List your allowed image domains here
   },
-}
-
-module.exports = nextConfig
+  compress: true,
+  experimental: {
+    optimizeCss: true,
+    optimizePackageImports: true,
+  },
+  performance: {
+    hints: false,
+  },
+};
